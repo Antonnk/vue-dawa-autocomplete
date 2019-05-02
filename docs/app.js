@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import { ExampleComponent } from '../src';
+import { VueDawaAutocomplete } from '../src';
 
 new Vue({
-    components: { ExampleComponent },
+    components: { VueDawaAutocomplete },
 
     el: '#app',
 });

@@ -1,1 +1,1 @@
-export { default as ExampleComponent } from './components/ExampleComponent';
+export { default as VueDawaAutocomplete } from './components/Input';

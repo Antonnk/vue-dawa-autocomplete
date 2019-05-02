@@ -6,7 +6,7 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "start": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "build": "rm -rf dist; npm run production",
     "prepublish": "npm run test; npm run build",
@@ -34,6 +34,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "unfetch": "^4.1.0",
     "vue": "^2.6.10"
   }
 }
