@@ -4,6 +4,12 @@ import debounce from 'lodash.debounce'
 export default {
 	name: "DawaAutocompleteInput",
 
+	inheritAttrs: false,
+
+	model: {
+		evnet: 'update'
+	},
+
 	props: {
 		type: {
 			type: String,
@@ -20,6 +26,12 @@ export default {
 					...hit,
 					text: hit.tekst
 				}
+			}
+		},
+		valueFormat: {
+			type: Function,
+			default: (hit) => {
+				return hit.text
 			}
 		}
 	},
@@ -51,6 +63,7 @@ export default {
 			this.isOpen = false
 			this.hit = this.hits[index]
 			this.query = this.hit.text
+			this.$emit('update', this.hit)
 		}
     },
 
@@ -69,6 +82,7 @@ export default {
 
     watch: {
 		query(newVal) {
+			if(newVal === '') this.isOpen = false
 			this.debouncedFetch()
 		}
     },
@@ -97,16 +111,15 @@ export default {
 			)
 		}
 
-
     	return createElement('div', [
     		createElement('input', {
 				attrs: {
-					name: "test",
 					type: 'text',
-					autoFocus: true,
+					value: Object.keys(this.hit).length && this.valueFormat(this.hit),
+					...this.$attrs
 				},
 				domProps: {
-			      value: this.query
+					value: this.query
 			    },
 				on: {
 					input: this.handleInput,
