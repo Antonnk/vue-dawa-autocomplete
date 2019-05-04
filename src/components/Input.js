@@ -1,4 +1,5 @@
 import fetch from 'unfetch'
+import debounce from 'lodash.debounce'
 
 export default {
 	name: "DawaAutocompleteInput",
@@ -27,52 +28,55 @@ export default {
 		query: "",
 		hit: {},
 		rawHits: [],
-		hits: []
+		isOpen: false
 	}),
 
     methods: {
     	
-    	async handleInput(e) {
+    	handleInput(e)  {
+    		this.isOpen = true
     		this.query = e.target.value
-			this.rawHits = await this.fetch()
-			this.hits = this.rawHits.map(hit => this.hitTransformer(hit))
-    		console.log(this.hits)
     	},
 
-		async fetch() {
-			return await fetch(`${this.url}/autocomplete?q=${encodeURI(this.query)}`)
+		fetch() {
+			fetch(`${this.url}/autocomplete?q=${encodeURI(this.query)}`)
 			  .catch(console.error)
 			  .then( response => response.json())
+			  .then( json => {
+			  	this.rawHits = json
+			  })
 		},
 
 		selectHit(index) {
-			console.log(this.hits[index])
+			this.isOpen = false
 			this.hit = this.hits[index]
+			this.query = this.hit.text
 		}
     },
 
     computed: {
 		url() {
 			return `${this.baseUrl}/${this.type}`
+		},
+		hits() {
+			return this.rawHits.map(hit => this.hitTransformer(hit))
+		}
+    },
+
+    created() {
+		this.debouncedFetch = debounce(this.fetch, 200);
+    },
+
+    watch: {
+		query(newVal) {
+			this.debouncedFetch()
 		}
     },
 
     render(createElement) {
-    	return createElement('div', [
-    		createElement('input', {
-				attrs: {
-					name: "test",
-					type: 'text',
-					autoFocus: true,
-				},
-				domProps: {
-			      value: this.query
-			    },
-				on: {
-					input: this.handleInput,
-				}
-			}),
-			createElement('ul', 
+		let listElement
+		if(this.hits.length && this.isOpen) {
+			listElement = createElement('ul', 
 				{attrs:{role:'listbox'}}, 
 				this.hits.map((hit, index) => createElement('li', 
 					{
@@ -90,7 +94,25 @@ export default {
 					}, 
 					hit.text
 				))
-			),
+			)
+		}
+
+
+    	return createElement('div', [
+    		createElement('input', {
+				attrs: {
+					name: "test",
+					type: 'text',
+					autoFocus: true,
+				},
+				domProps: {
+			      value: this.query
+			    },
+				on: {
+					input: this.handleInput,
+				}
+			}),
+			listElement
     	])
     }
 };
