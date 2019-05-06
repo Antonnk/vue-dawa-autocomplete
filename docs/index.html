@@ -2,40 +2,22 @@
 <head>
     <title>vue-dawa-autocomplete</title>
 
-    <style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 
-        *,
-        *:after,
-        *:before {
-            box-sizing: border-box;
-            margin: 0;
+    <style>
+        ul.dawa-autocomplete-list {
+            list-style: none;
             padding: 0;
         }
-
-        body {
-            background-color: #efefef;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-            font-size: 16px;
-            padding: 2em;
-        }
-
-        .page {
-            background-color: #fff;
-            max-width: 66em;
-            margin: 0 auto;
-            padding: 4em 2em;
-        }
-
     </style>
-
 </head>
-<body>
-<div id="app" class="page">
-    <div>
+<body class="bg-grey-lightest">
+    
+    <div id="app" class="container mx-auto bg-white my-16 p-10 rounded">
         <label>Search</label>
-        <vue-dawa-autocomplete></vue-dawa-autocomplete>
+        <vue-dawa-autocomplete placeholder="Hej" type="vejnavne"></vue-dawa-autocomplete>
     </div>
-</div>
-<script src="build/app.js"></script>
+
+    <script src="build/app.js"></script>
 </body>
 </html>
