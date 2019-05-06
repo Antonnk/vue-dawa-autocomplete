@@ -33,6 +33,10 @@ export default {
 			default: (hit) => {
 				return hit.text
 			}
+		},
+		classPrefix: {
+			type: String,
+			default: "dawa-autocomplete"
 		}
 	},
 
@@ -91,9 +95,13 @@ export default {
 		let listElement
 		if(this.hits.length && this.isOpen) {
 			listElement = createElement('ul', 
-				{attrs:{role:'listbox'}}, 
+				{
+					class: `${this.classPrefix}-list`,
+					attrs:{role:'listbox'}
+				}, 
 				this.hits.map((hit, index) => createElement('li', 
 					{
+						class: `${this.classPrefix}-listitem`,
 						attrs:{role:'option', tabindex: 0},
 						on: {
 							click: e => this.selectHit(index),
@@ -111,8 +119,13 @@ export default {
 			)
 		}
 
-    	return createElement('div', [
+    	return createElement('div', 
+    		{
+    			class: `${this.classPrefix}-container`
+    		},
+    		[
     		createElement('input', {
+    			class: `${this.classPrefix}-input`,
 				attrs: {
 					type: 'text',
 					value: Object.keys(this.hit).length && this.valueFormat(this.hit),
@@ -122,7 +135,7 @@ export default {
 					value: this.query
 			    },
 				on: {
-					input: this.handleInput,
+					input: this.handleInput
 				}
 			}),
 			listElement
