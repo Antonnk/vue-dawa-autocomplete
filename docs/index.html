@@ -5,17 +5,30 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 
     <style>
+        div.dawa-autocomplete-container {
+            position: relative;
+        }
+        input.dawa-autocomplete-input {
+            padding: .3rem .6rem;
+            border: 1px solid;
+        }
         ul.dawa-autocomplete-list {
             list-style: none;
             padding: 0;
+            position: absolute;
+            background: white;
+            border: 1px solid #dedede;
+        }
+        li.dawa-autocomplete-listitem {
+            padding: .3rem .6rem;
         }
     </style>
 </head>
 <body class="bg-grey-lightest">
     
     <div id="app" class="container mx-auto bg-white my-16 p-10 rounded">
-        <label>Search</label>
-        <vue-dawa-autocomplete placeholder="Hej" type="vejnavne"></vue-dawa-autocomplete>
+        <label>Søg på vejnavne</label>
+        <vue-dawa-autocomplete placeholder="eks. H.C. Andersens Boulevard" type="vejnavne"></vue-dawa-autocomplete>
     </div>
 
     <script src="build/app.js"></script>
